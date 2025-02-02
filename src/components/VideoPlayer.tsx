@@ -21,6 +21,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, metadata }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [videoError, setVideoError] = useState(false);
 
   // Initialize Three.js scene
   useEffect(() => {
@@ -261,6 +262,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, metadata }) => {
     });
   };
 
+  const handleVideoError = () => {
+    setVideoError(true);
+    setIsPlaying(false);
+  };
+
   return (
     <div className='flex flex-col md:flex-row'>
       <div className='md:w-3/4 w-full relative flex flex-col'>
@@ -270,9 +276,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, metadata }) => {
             className='hidden'
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
+            onError={handleVideoError}
           >
             <source src={videoUrl} type='video/mp4' />
           </video>
+          {videoError && (
+            <div className='absolute inset-0 flex items-center justify-center bg-gray-900'>
+              <div className='text-white text-xl'>
+                Video cannot be played. The file might be missing or corrupted.
+              </div>
+            </div>
+          )}
           <div className='absolute inset-0 pointer-events-none overflow-hidden'>
             {renderBoundingBoxes()}
           </div>
