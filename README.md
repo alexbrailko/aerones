@@ -8,4 +8,4 @@ npm run dev
 
 ```
 
-Put video in root folder and in App.tsx file edit the video path in videoUrl constant.
+Put video file and metadata.json (already inside for GS012237-stitched.mp4 file) in root folder and in App.tsx change the correct file paths.
